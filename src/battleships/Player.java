@@ -1,46 +1,54 @@
 package battleships;
 
-import gui.BattleShips;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Each instance of this class represents individual player and all necessary infromation.
+ * Each instance of this class represents individual player and all necessary information.
  */
-public class Players {
+public class Player {
 
     private int playerHealth;
-    private List<BattleShips>[] ships;
+    private List<Ship> ships;
     private String name;
-    private GridPane board;
     private int mishits;
     private int timeSpent;
     private TextArea gameHistory;
     private boolean clickAllowance;
+    private GameBoard gameBoard;
 
-    public Players() {
+    public Player() {
         this.playerHealth = 20;
         this.mishits = 0;
         this.timeSpent = 0;
         this.clickAllowance = true;
+        this.ships = new ArrayList<>();
+        for (int i = 1; i < 11; i++) {
+            if (i < 5) {
+                ships.add(new Ship(1));
+            } else if (i < 8) {
+                ships.add(new Ship(2));
+            } else if (i < 10) {
+                ships.add(new Ship(3));
+            } else {
+                ships.add(new Ship(4));
+            }
+        }
+        this.gameBoard = new GameBoard();
     }
 
     public int getPlayerHealth() {
         return playerHealth;
     }
 
-    public List<BattleShips>[] getShips() {
+    public List<Ship> getShips() {
         return ships;
     }
 
     public String getName() {
         return name;
-    }
-
-    public GridPane getBoard() {
-        return board;
     }
 
     public int getMishits() {
@@ -59,6 +67,10 @@ public class Players {
         return clickAllowance;
     }
 
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
     public void takeDamage() {
         this.playerHealth -= 1;
     }
@@ -69,10 +81,6 @@ public class Players {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setBoard(GridPane board) {
-        this.board = board;
     }
 
     public void addMisHits() {
