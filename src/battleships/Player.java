@@ -10,23 +10,17 @@ import java.util.List;
  */
 public class Player {
 
-    private int playerHealth;
-    private final ArrayList<Ship> ships;
+    private int playerHealth = 20;
+    private final ArrayList<Ship> ships = new ArrayList<>();
     private String name;
-    private int mishits;
-    private int timeSpent;
+    private int mishits = 0;
+    private int timeSpent = 0;
     private TextArea gameHistory;
-    private boolean clickAllowance;
-    private final GameBoard gameBoard;
+    private boolean clickAllowance = true;
+    private final GameBoard gameBoard = new GameBoard();
+    private int availableShips = 10;
 
     public Player() {
-        this.playerHealth = 20;
-        this.mishits = 0;
-        this.timeSpent = 0;
-        this.clickAllowance = true;
-        this.ships = new ArrayList<>();
-        this.gameBoard = new GameBoard();
-
         for (int i = 0; i < 10; i++) {
             if (i < 1) {
                 ships.add(new Ship(4));
@@ -64,6 +58,10 @@ public class Player {
         return gameHistory;
     }
 
+    public int getAvailableShips() {
+        return availableShips;
+    }
+
     public boolean isClickAllowance() {
         return clickAllowance;
     }
@@ -74,14 +72,6 @@ public class Player {
 
     public void takeDamage() {
         this.playerHealth -= 1;
-    }
-
-    public void addShip(Ship ship) {
-        this.ships.add(ship);
-    }
-
-    public void removeShips() {
-        this.ships.clear();
     }
 
     public void setName(String name) {
@@ -102,5 +92,17 @@ public class Player {
 
     public void setClickAllowance(boolean clickAllowance) {
         this.clickAllowance = clickAllowance;
+    }
+
+    public void noAvailableShips() {
+        this.availableShips = 0;
+    }
+
+    public void setAvailableShips() {
+        this.availableShips = 10;
+    }
+
+    public void reduceAvailableShips() {
+        this.availableShips--;
     }
 }

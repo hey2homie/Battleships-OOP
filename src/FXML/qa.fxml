@@ -30,7 +30,7 @@
             <Font name="Avenir Book" size="24.0" />
          </font>
          <stylesheets>
-            <URL value="@textArea.css" />
+            <URL value="@../CSS/textArea.css" />
          </stylesheets>
       </TextArea>
    </Pane>

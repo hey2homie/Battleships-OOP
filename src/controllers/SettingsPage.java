@@ -38,7 +38,7 @@ public class SettingsPage implements Initializable{
     private void toPlacement(ActionEvent event) throws IOException {
         boolean[] allSet = new boolean[3];
         Utilities.getPlayer1().setName(player1.getText());
-        Utilities.getPlayer1().setName(player2.getText());
+        Utilities.getPlayer2().setName(player2.getText());
 
         if (player1.getText().equals("") || player2.getText().equals("")) {
             Utilities.raiseAlert("Please write down player's names!");

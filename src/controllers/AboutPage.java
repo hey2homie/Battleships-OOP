@@ -22,7 +22,7 @@ public class AboutPage implements Initializable {
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        Utilities.changeScene(event, "../../stylefiles/begin.fxml");
+        Utilities.changeScene(event, "../FXML/begin.fxml");
     }
 
 }

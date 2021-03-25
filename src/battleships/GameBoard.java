@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class GameBoard {
 
-    private GridPane gameGrid;  // Visual representation
-    private int[][] gameBoard = new int[10][10];;  // Logical representation
+    private GridPane gameGrid;
+    private int[][] gameBoard = new int[10][10];
 
     public GameBoard() {
         this.gameGrid = new GridPane();
@@ -96,6 +96,29 @@ public class GameBoard {
         }
     }
 
+    public boolean addManually(int row, int column, Player player, boolean vertical, int shipNum) {
+        boolean placed = false;
+        int len = player.getShips().get(shipNum - 1).getShipLength();
+        try {
+            if (vertical && (gameBoard[row + len - 1][column] == 0)) {
+                for (int i = 0; i < len; i++) {
+                    gameBoard[row + i][column] = shipNum;
+                    addUnavailable(row + i, column);
+                    placed = true;
+                }
+            }
+            if (!vertical && (gameBoard[row][column + len - 1] == 0)) {
+                for (int i = 0; i < len; i++) {
+                    gameBoard[row][column + i] = shipNum;
+                    addUnavailable(row, column + i);
+                    placed = true;
+                }
+            }
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+        return placed;
+    }
+
     public void setRandomly() {
         randomPlacement();
         fillGridPane(false);
@@ -105,7 +128,7 @@ public class GameBoard {
         fillGridPane(true);
     }
 
-    private void fillGridPane(boolean clear) {
+    public void fillGridPane(boolean clear) {
         this.gameGrid.getChildren().retainAll(this.gameGrid.getChildren().get(0));
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
