@@ -12,8 +12,10 @@ import java.io.IOException;
 
 public class Utilities {
 
-    private static Player player1 = new Player();
-    private static Player player2 = new Player();
+    private static final Player player1 = new Player();
+    private static final Player player2 = new Player();
+    private static int gameTime = 0;
+    private static String scoringSystem = "";
 
     public static void changeScene(Event event, String scene) throws IOException {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -28,7 +30,7 @@ public class Utilities {
         alert.setHeaderText(null);
         alert.setContentText(message);
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(Utilities.class.getResource("../../CSS/alert.css").toExternalForm());
+        dialogPane.getStylesheets().add(Utilities.class.getResource("../CSS/alert.css").toExternalForm());
         dialogPane.getStyleClass().add("myDialog");
         alert.showAndWait();
     }
@@ -39,5 +41,13 @@ public class Utilities {
 
     public static Player getPlayer2() {
         return player2;
+    }
+
+    public static void setGameTime(int time) {
+        gameTime = time;
+    }
+
+    public static void setScoringSystem(String scoring) {
+        scoringSystem = scoring;
     }
 }

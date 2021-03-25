@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlacementPlayer1">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlacementPage">
     <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0"
           prefWidth="1024.0" style="-fx-background-color: #d0b8ac;" xmlns="http://javafx.com/javafx/11.0.1">
         <Label layoutX="5.0" layoutY="14.0" text="Placement">
@@ -19,7 +19,7 @@
                 <Font name="Avenir Book" size="82.0" />
             </font>
         </Label>
-        <GridPane fx:id="gridPane1" gridLinesVisible="true" layoutX="14.0" layoutY="198.0" prefHeight="450.0"
+        <GridPane fx:id="battleField" gridLinesVisible="true" layoutX="14.0" layoutY="198.0" prefHeight="450.0"
                   prefWidth="650.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -46,19 +46,19 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
-        <Label fx:id="name1" layoutX="14.0" layoutY="132.0" text="null">
+        <Label fx:id="name" layoutX="14.0" layoutY="132.0" text="null">
             <font>
                 <Font name="Avenir Book" size="30.0" />
             </font>
         </Label>
-        <Button fx:id="nextPlacement" layoutX="407.0" layoutY="681.0" mnemonicParsing="false" onAction="#toPlayer2"
+        <Button fx:id="nextPlacement" layoutX="407.0" layoutY="681.0" mnemonicParsing="false" onAction="#toNextPlayer"
                 prefHeight="63.0" prefWidth="210.0" style="-fx-background-color: null;" text="Next Player?"
                 textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="Avenir Book" size="30.0" />
             </font>
         </Button>
-        <GridPane fx:id="gridPane2" alignment="CENTER" gridLinesVisible="true" layoutX="689.0" layoutY="198.0"
+        <GridPane fx:id="availableShip" alignment="CENTER" gridLinesVisible="true" layoutX="689.0" layoutY="198.0"
                   prefHeight="380.0" prefWidth="321.0">
             <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="272.0" minWidth="10.0"
@@ -94,7 +94,7 @@
                 </font>
             </Label>
         </GridPane>
-        <Button layoutX="689.0" layoutY="122.0" mnemonicParsing="false" onAction="#SetRandomly1" prefHeight="63.0"
+        <Button layoutX="689.0" layoutY="122.0" mnemonicParsing="false" onAction="#SetRandomly" prefHeight="63.0"
                 prefWidth="321.0" style="-fx-background-color: null;" text="Random placement?" textAlignment="CENTER"
                 wrapText="true">
             <font>

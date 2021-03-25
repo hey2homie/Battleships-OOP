@@ -22,14 +22,10 @@ public class SettingsPage implements Initializable{
     @FXML
     Button timer30;
     @FXML
-    Button toPlacementBoard;
-    @FXML
     Button setMishits;
     @FXML
     Button setTimeSpent;
 
-    public static int mills;
-    public static String scoring;
     boolean timerSet = false;
     boolean scoringSet = false;
 
@@ -41,11 +37,8 @@ public class SettingsPage implements Initializable{
     @FXML
     private void toPlacement(ActionEvent event) throws IOException {
         boolean[] allSet = new boolean[3];
-
-        // Players.namePlayer1 = player1.getText();
-        // Players.namePlayer2 = player2.getText();
-
-        // Check if all settings were applied
+        Utilities.getPlayer1().setName(player1.getText());
+        Utilities.getPlayer1().setName(player2.getText());
 
         if (player1.getText().equals("") || player2.getText().equals("")) {
             Utilities.raiseAlert("Please write down player's names!");
@@ -63,14 +56,13 @@ public class SettingsPage implements Initializable{
             allSet[2] = true;
         }
         if (allSet[0] && allSet[1] && allSet[2]) {
-            // usedSettings = scoring.equals("timing") ? "timing" : "mishit";
-            Utilities.changeScene(event, "../../stylefiles/placement1.fxml");
+            Utilities.changeScene(event, "../FXML/placement.fxml");
         }
     }
 
     @FXML
     private void setTimer30() {
-        mills = 30000;
+        Utilities.setGameTime(30000);
         timer30.setUnderline(true);
         timer60.setUnderline(false);
         timerSet = true;
@@ -78,7 +70,7 @@ public class SettingsPage implements Initializable{
 
     @FXML
     private void setTimer60() {
-        mills = 60000;
+        Utilities.setGameTime(60000);
         timer60.setUnderline(true);
         timer30.setUnderline(false);
         timerSet = true;
@@ -86,7 +78,7 @@ public class SettingsPage implements Initializable{
 
     @FXML
     private void setTimeSpent() {
-        scoring = "timing";
+        Utilities.setScoringSystem("timing");
         setTimeSpent.setUnderline(true);
         setMishits.setUnderline(false);
         scoringSet = true;
@@ -94,7 +86,7 @@ public class SettingsPage implements Initializable{
 
     @FXML
     private void setMishits() {
-        scoring = "mishit";
+        Utilities.setScoringSystem("mishit");
         setMishits.setUnderline(true);
         setTimeSpent.setUnderline(false);
         scoringSet = true;

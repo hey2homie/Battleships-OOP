@@ -11,13 +11,13 @@ import java.util.List;
 public class Player {
 
     private int playerHealth;
-    private List<Ship> ships;
+    private final ArrayList<Ship> ships;
     private String name;
     private int mishits;
     private int timeSpent;
     private TextArea gameHistory;
     private boolean clickAllowance;
-    private GameBoard gameBoard;
+    private final GameBoard gameBoard;
 
     public Player() {
         this.playerHealth = 20;
@@ -25,18 +25,19 @@ public class Player {
         this.timeSpent = 0;
         this.clickAllowance = true;
         this.ships = new ArrayList<>();
-        for (int i = 1; i < 11; i++) {
-            if (i < 5) {
-                ships.add(new Ship(1));
-            } else if (i < 8) {
-                ships.add(new Ship(2));
-            } else if (i < 10) {
-                ships.add(new Ship(3));
-            } else {
+        this.gameBoard = new GameBoard();
+
+        for (int i = 0; i < 10; i++) {
+            if (i < 1) {
                 ships.add(new Ship(4));
+            } else if (i < 3) {
+                ships.add(new Ship(3));
+            } else if (i < 6) {
+                ships.add(new Ship(2));
+            } else {
+                ships.add(new Ship(1));
             }
         }
-        this.gameBoard = new GameBoard();
     }
 
     public int getPlayerHealth() {
@@ -75,8 +76,12 @@ public class Player {
         this.playerHealth -= 1;
     }
 
-    public void reduceShips() {
-        throw new IllegalArgumentException("Method is not implemented yet");
+    public void addShip(Ship ship) {
+        this.ships.add(ship);
+    }
+
+    public void removeShips() {
+        this.ships.clear();
     }
 
     public void setName(String name) {

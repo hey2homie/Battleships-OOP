@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class HistoryPage implements Initializable {
 
     @FXML
-    public TextArea textArea;
+    private TextArea textArea;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,7 +32,7 @@ public class HistoryPage implements Initializable {
         textArea.setText(String.valueOf(stringBuilder).replace("&#10;", "\n")); // Adding new lines
     }
 
-    public void toMenu(ActionEvent event) throws IOException {
+    private void toMenu(ActionEvent event) throws IOException {
         Utilities.changeScene(event, "../../stylefiles/begin.fxml");
     }
 }
