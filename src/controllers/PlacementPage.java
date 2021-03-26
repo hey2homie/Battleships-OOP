@@ -1,6 +1,6 @@
 package controllers;
 
-import battleships.GameBoard;
+import battleships.Player;
 import battleships.Utilities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,17 +42,20 @@ public class PlacementPage implements Initializable {
 
     private static final ImageView[] ships = new ImageView[4];
     private boolean vertical = false;
-    private int player = 1;
     private int dims;
     private Label[] labels;
     private boolean setRandomly = false;
+    private Player player = Utilities.getPlayer1();
+    private int turn = 1;
 
     @FXML
     private void toNextPlayer(ActionEvent event) throws IOException {
-        if (player == 1) {
+        if (turn == 1) {
             if (Utilities.getPlayer1().getAvailableShips() == 0) {
-                player = 2;
                 battleField.getChildren().retainAll(battleField.getChildren().get(0));
+                player = Utilities.getPlayer2();
+                prepareBoard();
+                turn = 2;
                 name.setText(Utilities.getPlayer2().getName());
                 nextPlacement.setText("Begin?");
                 for (int i = 0; i < 4; i++) {
@@ -62,7 +65,7 @@ public class PlacementPage implements Initializable {
             } else {
                 Utilities.raiseAlert(Utilities.getPlayer1().getName() + ", you didn't put all ships to board!");
             }
-        } else if (player == 2) {
+        } else if (turn == 2) {
             if (Utilities.getPlayer2().getAvailableShips() == 0) {
                 Utilities.changeScene(event, "../FXML/game.fxml");
             } else {
@@ -76,17 +79,7 @@ public class PlacementPage implements Initializable {
         labels = new Label[]{ship1x1, ship2x1, ship3x1, ship4x1};
         name.setText(Utilities.getPlayer1().getName());
         orientation.getStylesheets().add(PlacementPage.class.getResource("../CSS/checkBox.css").toExternalForm());
-
-        GameBoard boardPlayer1 = Utilities.getPlayer1().getGameBoard();
-        GameBoard boardPlayer2 = Utilities.getPlayer2().getGameBoard();
-
-        boardPlayer1.setGameBoard();
-        boardPlayer1.setGameGrid(battleField);
-        boardPlayer1.prepareBoard();
-        boardPlayer2.setGameBoard();
-        boardPlayer2.setGameGrid(battleField);
-        boardPlayer2.prepareBoard();
-
+        prepareBoard();
         for (int i = 0; i < 4; i++) {
             ships[i] = new ImageView(getClass().getResource("../images/1x1.png".replace(
                     "1x", (i + 1) + "x")).toExternalForm());
@@ -122,17 +115,12 @@ public class PlacementPage implements Initializable {
 
             if (setRandomly) {
                 battleField.getChildren().retainAll(battleField.getChildren().get(0));
-                if (player == 1) {
-                    boardPlayer1.setGameBoard();
-                    Utilities.getPlayer1().setAvailableShips();
-                } else {
-                    boardPlayer2.setGameBoard();
-                    Utilities.getPlayer2().setAvailableShips();
-                }
+                player.getGameBoard().setGameBoard();
+                player.setAvailableShips();
                 setRandomly = false;
             }
 
-            Integer cIndex = GridPane.getColumnIndex(node); // When dropped, get the coordinates of the cursor
+            Integer cIndex = GridPane.getColumnIndex(node);
             Integer rIndex = GridPane.getRowIndex(node);
             int x = cIndex == null ? 0 : cIndex;
             int y = rIndex == null ? 0 : rIndex;
@@ -149,19 +137,11 @@ public class PlacementPage implements Initializable {
                 shipNum = 1;
             }
 
-            boolean placed;
-
-            if (player == 1) {
-                placed = boardPlayer1.addManually(y, x, Utilities.getPlayer1(), vertical, shipNum);
-                boardPlayer1.fillGridPane(false);
-                Utilities.getPlayer1().reduceAvailableShips();
-            } else {
-                placed = boardPlayer2.addManually(y, x, Utilities.getPlayer1(), vertical, shipNum);
-                boardPlayer2.fillGridPane(false);
-                Utilities.getPlayer2().reduceAvailableShips();
-            }
+            boolean placed = player.getGameBoard().addManually(y, x, Utilities.getPlayer1(), vertical, shipNum);
 
             if (placed) {
+                player.getGameBoard().fillGridPane(false, battleField);
+                player.reduceAvailableShips();
                 labels[dims].setText(String.valueOf(Integer.parseInt(labels[dims].getText()) - 1));
                 if (labels[dims].getText().equals("0")) {
                     ships[dims].setVisible(false);
@@ -175,17 +155,17 @@ public class PlacementPage implements Initializable {
     @FXML
     private void SetRandomly() {
         setRandomly = true;
-        if (player == 1){
-            Utilities.getPlayer1().getGameBoard().setRandomly();
-            Utilities.getPlayer1().noAvailableShips();
-        } else {
-            Utilities.getPlayer2().getGameBoard().setRandomly();
-            Utilities.getPlayer2().noAvailableShips();
-        }
+        player.getGameBoard().setRandomly(battleField);
+        player.noAvailableShips();
     }
 
     @FXML
     private void setVertical() {
         this.vertical = orientation.isSelected();
+    }
+
+    private void prepareBoard() {
+        player.getGameBoard().setGameBoard();
+        player.getGameBoard().prepareBoard(battleField);
     }
 }

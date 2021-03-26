@@ -14,20 +14,20 @@ import java.util.ResourceBundle;
 public class SettingsPage implements Initializable{
 
     @FXML
-    TextField player1;
+    private TextField player1;
     @FXML
-    TextField player2;
+    private TextField player2;
     @FXML
-    Button timer60;
+    private Button timer60;
     @FXML
-    Button timer30;
+    private Button timer30;
     @FXML
-    Button setMishits;
+    private Button setMishits;
     @FXML
-    Button setTimeSpent;
+    private Button setTimeSpent;
 
-    boolean timerSet = false;
-    boolean scoringSet = false;
+    private boolean timerSet = false;
+    private boolean scoringSet = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,13 +37,13 @@ public class SettingsPage implements Initializable{
     @FXML
     private void toPlacement(ActionEvent event) throws IOException {
         boolean[] allSet = new boolean[3];
-        Utilities.getPlayer1().setName(player1.getText());
-        Utilities.getPlayer2().setName(player2.getText());
 
         if (player1.getText().equals("") || player2.getText().equals("")) {
             Utilities.raiseAlert("Please write down player's names!");
         } else {
             allSet[0] = true;
+            Utilities.getPlayer1().setName(player1.getText());
+            Utilities.getPlayer2().setName(player2.getText());
         }
         if (!timerSet) {
             Utilities.raiseAlert("Please, set timer!");

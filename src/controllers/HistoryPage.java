@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class HistoryPage implements Initializable {
+class HistoryPage implements Initializable {
 
     @FXML
     private TextArea textArea;

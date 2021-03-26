@@ -1,13 +1,8 @@
 package battleships;
 
-import javafx.scene.control.TextArea;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Each instance of this class represents individual player and all necessary information.
- */
 public class Player {
 
     private int playerHealth = 20;
@@ -15,7 +10,7 @@ public class Player {
     private String name;
     private int mishits = 0;
     private int timeSpent = 0;
-    private TextArea gameHistory;
+    private String gameHistory = "";
     private boolean clickAllowance = true;
     private final GameBoard gameBoard = new GameBoard();
     private int availableShips = 10;
@@ -54,7 +49,7 @@ public class Player {
         return timeSpent;
     }
 
-    public TextArea getGameHistory() {
+    public String getGameHistory() {
         return gameHistory;
     }
 
@@ -86,8 +81,8 @@ public class Player {
         this.timeSpent += time;
     }
 
-    public void addHistory( ) {
-        throw new IllegalArgumentException("Method is not implemented yet");
+    public void addHistory(String message) {
+        this.gameHistory += message;
     }
 
     public void setClickAllowance(boolean clickAllowance) {

@@ -1,5 +1,6 @@
 package battleships;
 
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -7,24 +8,7 @@ import java.util.Random;
 
 public class GameBoard {
 
-    private GridPane gameGrid;
     private int[][] gameBoard = new int[10][10];
-
-    public GameBoard() {
-        this.gameGrid = new GridPane();
-    }
-
-    public GridPane getGameGrid() {
-        return gameGrid;
-    }
-
-    public int[][] getGameBoard() {
-        return gameBoard;
-    }
-
-    public void setGameGrid(GridPane gameGrid) {
-        this.gameGrid = gameGrid;
-    }
 
     public void setGameBoard() {
         this.gameBoard = new int[10][10];
@@ -119,28 +103,59 @@ public class GameBoard {
         return placed;
     }
 
-    public void setRandomly() {
+    public void setRandomly(GridPane gameGrid) {
         randomPlacement();
-        fillGridPane(false);
+        fillGridPane(false, gameGrid);
     }
 
-    public void prepareBoard() {
-        fillGridPane(true);
+    public void prepareBoard(GridPane gameGrid) {
+        fillGridPane(true, gameGrid);
     }
 
-    public void fillGridPane(boolean clear) {
-        this.gameGrid.getChildren().retainAll(this.gameGrid.getChildren().get(0));
+    public void fillGridPane(boolean clear, GridPane gameGrid) {
+        gameGrid.getChildren().retainAll(gameGrid.getChildren().get(0));
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 String color = gameBoard[i][j] == 0 || gameBoard[i][j] == -1 ? "-fx-background-color: null;" :
-                        "-fx-background-color: #f44336;";
+                        "-fx-background-color: RosyBrown;";
                 if (clear) {
                     color = "-fx-background-color: null;";
                 }
                 Pane pane = new Pane();
-                pane.setStyle(color);
+                pane.setStyle(color + " -fx-border-color: #827670");
                 gameGrid.add(pane, j, i);
             }
+        }
+    }
+
+    public void clickEvent(Node clickedNode, Player player) {
+
+        Integer colIndex = GridPane.getColumnIndex(clickedNode);
+        Integer rowIndex = GridPane.getRowIndex(clickedNode);
+
+        if (player.isClickAllowance()) {
+            player.addHistory((rowIndex + 1) + ":" + (colIndex + 1));
+            if (gameBoard[rowIndex][colIndex] != -1 && gameBoard[rowIndex][colIndex] != 0 &&
+                    gameBoard[rowIndex][colIndex] != -2) {
+                player.takeDamage();
+                // TODO: Change player to opposite
+                player.getShips().get(gameBoard[rowIndex][colIndex] - 1).takeDamage();
+                if (player.getShips().get(gameBoard[rowIndex][colIndex] -1).getShipHealth() == 0) {
+                    player.addHistory(" Sink"  + "\n");
+                } else {
+                    player.addHistory(" Hit"  + "\n");
+                }
+                clickedNode.setStyle("-fx-background-color: RosyBrown; -fx-border-color: #827670");
+            } else if (gameBoard[rowIndex][colIndex] == -1 || gameBoard[rowIndex][colIndex] == 0) {
+                if (player.getPlayerHealth() != 0) {
+                    player.setClickAllowance(false);
+                    player.addMisHits();
+                    player.addHistory(" Miss" + "\n");
+                    clickedNode.setStyle("-fx-background-color: RoyalBlue; -fx-border-color: #827670");
+                }
+            }
+
+            gameBoard[rowIndex][colIndex] = -2;
         }
     }
 }
