@@ -50,4 +50,8 @@ public class Utilities {
     public static void setScoringSystem(String scoring) {
         scoringSystem = scoring;
     }
+
+    public static int getGameTime() {
+        return gameTime;
+    }
 }

@@ -1,6 +1,7 @@
 package controllers;
 
 import battleships.Player;
+import battleships.Timer;
 import battleships.Utilities;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -35,15 +36,19 @@ public class GamePage implements Initializable {
 
     private Player player = Utilities.getPlayer2();
     private int turn = 1;
+    private Timer timer;
 
     @FXML
     private void toPlayer2Move(ActionEvent event) throws IOException {
+        timerLabel.setText("");
         if (turn == 1) {
             if (!player.isClickAllowance()) {
                 turn = 2;
                 player = Utilities.getPlayer1();
                 battleField2.setVisible(true);
                 battleField1.setVisible(false);
+                timer = new Timer(Utilities.getGameTime(), 2, player ,timerLabel);
+                timer.stop();
             } else {
                 Utilities.raiseAlert("You haven't moved");
             }
@@ -53,6 +58,8 @@ public class GamePage implements Initializable {
                 player = Utilities.getPlayer2();
                 battleField1.setVisible(true);
                 battleField2.setVisible(false);
+                timer = new Timer(Utilities.getGameTime(), 1, player ,timerLabel);
+                timer.stop();
             } else {
                 Utilities.raiseAlert("You haven't moved");
             }
@@ -63,10 +70,13 @@ public class GamePage implements Initializable {
         name.setText(player.getName());
         textArea.setText(player.getGameHistory());
         putScrollBarDown(textArea);
+        timer.newMove();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        timer = new Timer(Utilities.getGameTime(), 1, player ,timerLabel);
+        timer.newMove();
         Utilities.getPlayer1().getGameBoard().prepareBoard(battleField1);
         Utilities.getPlayer2().getGameBoard().prepareBoard(battleField2);
         battleField2.setVisible(false);

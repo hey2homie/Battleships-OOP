@@ -138,7 +138,6 @@ public class GameBoard {
             if (gameBoard[rowIndex][colIndex] != -1 && gameBoard[rowIndex][colIndex] != 0 &&
                     gameBoard[rowIndex][colIndex] != -2) {
                 player.takeDamage();
-                // TODO: Change player to opposite
                 player.getShips().get(gameBoard[rowIndex][colIndex] - 1).takeDamage();
                 if (player.getShips().get(gameBoard[rowIndex][colIndex] -1).getShipHealth() == 0) {
                     player.addHistory(" Sink"  + "\n");
