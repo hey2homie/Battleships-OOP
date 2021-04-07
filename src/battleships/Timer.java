@@ -9,12 +9,10 @@ public class Timer {
 
     private int millis;
     private Label timer;
-    private final int turn;
     private final Player player;
 
-    public Timer(int millis, int turn, Player player, Label label) {
+    public Timer(int millis, Player player, Label label) {
         this.millis = millis;
-        this.turn = turn;
         this.player = player;
         this.timer = label;
     }
@@ -28,11 +26,7 @@ public class Timer {
     public void CountDown() {
         if (millis != 0) {
             millis -= 1000;
-            if (turn == 1) {
-                Utilities.getPlayer1().addTime(1);
-            } else {
-                Utilities.getPlayer2().addTime(1);
-            }
+            player.addTime(1);
         }
         timer.setText(String.valueOf(millis / 1000));
         if (millis == 0) {
@@ -52,11 +46,7 @@ public class Timer {
 
     private void runOutOfTime() {
         player.setClickAllowance(false);
-        if (turn == 2) {
-            Utilities.getPlayer2().addMisHits();
-        } else {
-            Utilities.getPlayer1().addMisHits();
-        }
+        player.addMisHits();
     }
 
     public void newMove() {

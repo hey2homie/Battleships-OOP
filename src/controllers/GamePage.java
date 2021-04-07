@@ -43,9 +43,9 @@ public class GamePage implements Initializable {
         if (player.isClickAllowance()) {
             Utilities.raiseAlert("You haven't moved");
         } else {
-            changeField(turn);
+            changeField();
             timer.stop();
-            timer = new Timer(Utilities.getGameTime(), turn, player, timerLabel);
+            timer = new Timer(Utilities.getGameTime(), player, timerLabel);
             name.setText(player.getName());
 
             if (turn == 1) {
@@ -54,7 +54,7 @@ public class GamePage implements Initializable {
             } else if (turn == 2) {
                     turn = 1;
                     player = Utilities.getPlayer2();
-            } else if (turn == 3){
+            } else if (turn == 3) {
                 Utilities.changeScene(event, "../FXML/score.fxml");
             }
 
@@ -67,12 +67,12 @@ public class GamePage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        timer = new Timer(Utilities.getGameTime(), 1, player ,timerLabel);
+        timer = new Timer(Utilities.getGameTime(), player ,timerLabel);
         timer.newMove();
         Utilities.getPlayer1().getGameBoard().prepareBoard(battleField1);
         Utilities.getPlayer2().getGameBoard().prepareBoard(battleField2);
         battleField2.setVisible(false);
-        name.setText(Utilities.getPlayer1().getName());
+        name.setText(getOppositePlayer().getName());
         battleField1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
         battleField2.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
     }
@@ -80,11 +80,13 @@ public class GamePage implements Initializable {
     EventHandler<MouseEvent> eventHandler = e -> {
         textArea.setText("");
         Node clickedNode = e.getPickResult().getIntersectedNode();
-        player.getGameBoard().clickEvent(clickedNode, getOppositePlayer(turn));
+        player.getGameBoard().clickEvent(clickedNode, player);
         textArea.setText(player.getGameHistory());
         putScrollBarDown(textArea);
-        if (getOppositePlayer(turn).getPlayerHealth() == 0) {
+        if (player.getPlayerHealth() == 0) {
+            timer.stop();
             Utilities.raiseAlert("You won!");
+            winner();
             turn = 3;
             nextPlayer2.setText("Finish");
             player.setClickAllowance(false);
@@ -96,17 +98,27 @@ public class GamePage implements Initializable {
         textArea.deselect();
     }
 
-    private Player getOppositePlayer(int turn) {
-        return turn == 1 ? Utilities.getPlayer2() : Utilities.getPlayer1();
+    private Player getOppositePlayer() {
+        return turn == 1 ? Utilities.getPlayer1() : Utilities.getPlayer2();
     }
 
-    private void changeField(int turn) {
+    private void changeField() {
         if (turn == 1) {
             battleField1.setVisible(false);
             battleField2.setVisible(true);
         } else {
             battleField1.setVisible(true);
             battleField2.setVisible(false);
+        }
+    }
+
+    private void winner() {
+        Utilities.setWinner(getOppositePlayer().getName());
+        Utilities.setScore(String.format("You won with the following %s score ", Utilities.getScoringSystem()));
+        if (Utilities.getScoringSystem().equals("timing")) {
+            Utilities.setScore(player.getTimeSpent() + ":" + getOppositePlayer().getTimeSpent() + "&#10;");
+        } else {
+            Utilities.setScore(player.getMishits() + ":" + getOppositePlayer().getMishits() + "&#10;");
         }
     }
 }

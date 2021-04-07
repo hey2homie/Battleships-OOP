@@ -1,6 +1,5 @@
 package controllers;
 
-import battleships.Player;
 import battleships.Utilities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,26 +12,30 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-class HistoryPage implements Initializable {
+public class HistoryPage implements Initializable {
 
     @FXML
     private TextArea textArea;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        StringBuilder stringBuilder = new StringBuilder();  // Mutable since we append from file one line at the time
-        try {   // In case file doesn't exists. IDE suggestion btw
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
             Scanner scanner = new Scanner(Paths.get("src/gameHistory.txt"));
+
             while(scanner.hasNextLine()){
                 stringBuilder.append(scanner.nextLine());
             }
+
             scanner.close();
         } catch (IOException ignored) {
         }
-        textArea.setText(String.valueOf(stringBuilder).replace("&#10;", "\n")); // Adding new lines
+
+        textArea.setText(String.valueOf(stringBuilder).replace("&#10;", "\n"));
     }
 
+    @FXML
     private void toMenu(ActionEvent event) throws IOException {
-        Utilities.changeScene(event, "../../stylefiles/begin.fxml");
+        Utilities.changeScene(event, "../FXML/begin.fxml");
     }
 }

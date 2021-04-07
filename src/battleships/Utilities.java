@@ -17,6 +17,8 @@ public class Utilities {
     private static final Player player2 = new Player();
     private static int gameTime = 0;
     private static String scoringSystem = "";
+    private static String score = "";
+    private static String winner;
 
     public static void changeScene(Event event, String scene) throws IOException {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -45,6 +47,22 @@ public class Utilities {
         return player2;
     }
 
+    public static int getGameTime() {
+        return gameTime;
+    }
+
+    public static String getScoringSystem() {
+        return scoringSystem;
+    }
+
+    public static String getWinner() {
+        return winner;
+    }
+
+    public static String getScore() {
+        return score;
+    }
+
     public static void setGameTime(int time) {
         gameTime = time;
     }
@@ -53,7 +71,11 @@ public class Utilities {
         scoringSystem = scoring;
     }
 
-    public static int getGameTime() {
-        return gameTime;
+    public static void setScore(String result) {
+        score += result;
+    }
+
+    public static void setWinner(String win) {
+        winner = win;
     }
 }
