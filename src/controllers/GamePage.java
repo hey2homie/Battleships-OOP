@@ -83,6 +83,7 @@ public class GamePage implements Initializable {
         player.getGameBoard().clickEvent(clickedNode, player);
         textArea.setText(player.getGameHistory());
         putScrollBarDown(textArea);
+
         if (player.getPlayerHealth() == 0) {
             timer.stop();
             Utilities.raiseAlert("You won!");
@@ -114,11 +115,12 @@ public class GamePage implements Initializable {
 
     private void winner() {
         Utilities.setWinner(getOppositePlayer().getName());
-        Utilities.setScore(String.format("You won with the following %s score ", Utilities.getScoringSystem()));
+        Utilities.setScore(String.format("You won over %s with the following %s score ", player.getName(),
+                Utilities.getScoringSystem()));
         if (Utilities.getScoringSystem().equals("timing")) {
-            Utilities.setScore(player.getTimeSpent() + ":" + getOppositePlayer().getTimeSpent() + "&#10;");
+            Utilities.setScore(player.getTimeSpent() + ":" + getOppositePlayer().getTimeSpent());
         } else {
-            Utilities.setScore(player.getMishits() + ":" + getOppositePlayer().getMishits() + "&#10;");
+            Utilities.setScore(player.getMishits() + ":" + getOppositePlayer().getMishits());
         }
     }
 }

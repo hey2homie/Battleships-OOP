@@ -30,7 +30,6 @@ public class HistoryPage implements Initializable {
             scanner.close();
         } catch (IOException ignored) {
         }
-
         textArea.setText(String.valueOf(stringBuilder).replace("&#10;", "\n"));
     }
 

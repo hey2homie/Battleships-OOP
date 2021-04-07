@@ -3,7 +3,6 @@ package controllers;
 import battleships.Utilities;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.io.BufferedWriter;
@@ -26,7 +25,8 @@ public class ScorePage implements Initializable {
         try {
             FileWriter fileWriter = new FileWriter("src/gameHistory.txt", true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(score.getText());
+            Utilities.setScore(" &#10;");
+            bufferedWriter.write(score.getText().replace("You", Utilities.getWinner()));
             bufferedWriter.newLine();
             bufferedWriter.close();
         } catch (IOException ignored) {

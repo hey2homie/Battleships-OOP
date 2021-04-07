@@ -1,8 +1,5 @@
 package battleships;
 
-/**
- * Each instance of this class represent ship.
- */
 public class Ship {
 
     private final int shipLength;
