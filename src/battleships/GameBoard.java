@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class GameBoard {
@@ -61,6 +62,7 @@ public class GameBoard {
                             addUnavailable(row, column + k);
                         }
                     }
+
                     battleShipFilled = true;
                 }
             }
@@ -80,9 +82,9 @@ public class GameBoard {
         }
     }
 
-    public boolean addManually(int row, int column, Player player, boolean vertical, int shipNum) {
+    public boolean addManually(int row, int column, int len, boolean vertical, int shipNum) {
         boolean placed = false;
-        int len = player.getShips().get(shipNum - 1).getShipLength();
+
         try {
             if (vertical && (gameBoard[row + len - 1][column] == 0)) {
                 for (int i = 0; i < len; i++) {
@@ -100,10 +102,12 @@ public class GameBoard {
             }
         } catch (IndexOutOfBoundsException ignored) {
         }
+
         return placed;
     }
 
     public void setRandomly(GridPane gameGrid) {
+        setGameBoard();
         randomPlacement();
         fillGridPane(false, gameGrid);
     }
@@ -118,9 +122,11 @@ public class GameBoard {
             for (int j = 0; j < 10; j++) {
                 String color = gameBoard[i][j] == 0 || gameBoard[i][j] == -1 ? "-fx-background-color: null;" :
                         "-fx-background-color: RosyBrown;";
+
                 if (clear) {
                     color = "-fx-background-color: null;";
                 }
+
                 Pane pane = new Pane();
                 pane.setStyle(color + " -fx-border-color: #827670");
                 gameGrid.add(pane, j, i);
@@ -133,17 +139,19 @@ public class GameBoard {
         Integer colIndex = GridPane.getColumnIndex(clickedNode);
         Integer rowIndex = GridPane.getRowIndex(clickedNode);
 
-        if (player.isClickAllowance()) {
+        if (player.isClickAllowance() && gameBoard[rowIndex][colIndex] != -2) {
             player.addHistory((rowIndex + 1) + ":" + (colIndex + 1));
-            if (gameBoard[rowIndex][colIndex] != -1 && gameBoard[rowIndex][colIndex] != 0 &&
-                    gameBoard[rowIndex][colIndex] != -2) {
+
+            if (Arrays.stream(new int[] {-2, -1, 0}).noneMatch(i -> i == gameBoard[rowIndex][colIndex])) {
                 player.takeDamage();
                 player.getShips().get(gameBoard[rowIndex][colIndex] - 1).takeDamage();
+
                 if (player.getShips().get(gameBoard[rowIndex][colIndex] -1).getShipHealth() == 0) {
                     player.addHistory(" Sink"  + "\n");
                 } else {
                     player.addHistory(" Hit"  + "\n");
                 }
+
                 clickedNode.setStyle("-fx-background-color: RosyBrown; -fx-border-color: #827670");
             } else if (gameBoard[rowIndex][colIndex] == -1 || gameBoard[rowIndex][colIndex] == 0) {
                 if (player.getPlayerHealth() != 0) {

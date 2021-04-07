@@ -9,6 +9,7 @@ import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Utilities {
 
@@ -19,7 +20,7 @@ public class Utilities {
 
     public static void changeScene(Event event, String scene) throws IOException {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene nextScene = new Scene(FXMLLoader.load(Utilities.class.getResource(scene)));
+        Scene nextScene = new Scene(FXMLLoader.load(Objects.requireNonNull(Utilities.class.getResource(scene))));
         stageTheEventSourceNodeBelongs.setScene(nextScene);
     }
 
@@ -30,7 +31,8 @@ public class Utilities {
         alert.setHeaderText(null);
         alert.setContentText(message);
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(Utilities.class.getResource("../CSS/alert.css").toExternalForm());
+        dialogPane.getStylesheets().add(Objects.requireNonNull(Utilities.class.getResource(
+                "../CSS/alert.css")).toExternalForm());
         dialogPane.getStyleClass().add("myDialog");
         alert.showAndWait();
     }

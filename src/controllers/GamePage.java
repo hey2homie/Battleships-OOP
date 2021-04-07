@@ -22,17 +22,17 @@ import java.util.ResourceBundle;
 public class GamePage implements Initializable {
 
     @FXML
-    Button nextPlayer2;
+    private Button nextPlayer2;
     @FXML
-    Label timerLabel;
+    private Label timerLabel;
     @FXML
-    GridPane battleField1;
+    private GridPane battleField1;
     @FXML
-    GridPane battleField2;
+    private GridPane battleField2;
     @FXML
-    Label name;
+    private Label name;
     @FXML
-    TextArea textArea;
+    private TextArea textArea;
 
     private Player player = Utilities.getPlayer2();
     private int turn = 1;
@@ -40,37 +40,29 @@ public class GamePage implements Initializable {
 
     @FXML
     private void toPlayer2Move(ActionEvent event) throws IOException {
-        timerLabel.setText("");
-        if (turn == 1) {
-            if (!player.isClickAllowance()) {
-                turn = 2;
-                player = Utilities.getPlayer1();
-                battleField2.setVisible(true);
-                battleField1.setVisible(false);
-                timer = new Timer(Utilities.getGameTime(), 2, player ,timerLabel);
-                timer.stop();
-            } else {
-                Utilities.raiseAlert("You haven't moved");
-            }
-        } else if (turn == 2) {
-            if (!player.isClickAllowance()) {
-                turn = 1;
-                player = Utilities.getPlayer2();
-                battleField1.setVisible(true);
-                battleField2.setVisible(false);
-                timer = new Timer(Utilities.getGameTime(), 1, player ,timerLabel);
-                timer.stop();
-            } else {
-                Utilities.raiseAlert("You haven't moved");
-            }
+        if (player.isClickAllowance()) {
+            Utilities.raiseAlert("You haven't moved");
         } else {
-            Utilities.changeScene(event, "../FXML/score.fxml");
+            changeField(turn);
+            timer.stop();
+            timer = new Timer(Utilities.getGameTime(), turn, player, timerLabel);
+            name.setText(player.getName());
+
+            if (turn == 1) {
+                    turn = 2;
+                    player = Utilities.getPlayer1();
+            } else if (turn == 2) {
+                    turn = 1;
+                    player = Utilities.getPlayer2();
+            } else if (turn == 3){
+                Utilities.changeScene(event, "../FXML/score.fxml");
+            }
+
+            textArea.setText(player.getGameHistory());
+            putScrollBarDown(textArea);
+            player.setClickAllowance(true);
+            timer.newMove();
         }
-        player.setClickAllowance(true);
-        name.setText(player.getName());
-        textArea.setText(player.getGameHistory());
-        putScrollBarDown(textArea);
-        timer.newMove();
     }
 
     @Override
@@ -95,6 +87,7 @@ public class GamePage implements Initializable {
             Utilities.raiseAlert("You won!");
             turn = 3;
             nextPlayer2.setText("Finish");
+            player.setClickAllowance(false);
         }
     };
 
@@ -106,5 +99,14 @@ public class GamePage implements Initializable {
     private Player getOppositePlayer(int turn) {
         return turn == 1 ? Utilities.getPlayer2() : Utilities.getPlayer1();
     }
-}
 
+    private void changeField(int turn) {
+        if (turn == 1) {
+            battleField1.setVisible(false);
+            battleField2.setVisible(true);
+        } else {
+            battleField1.setVisible(true);
+            battleField2.setVisible(false);
+        }
+    }
+}

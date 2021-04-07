@@ -9,7 +9,7 @@ public class Timer {
 
     private int millis;
     private Label timer;
-    private int turn;
+    private final int turn;
     private final Player player;
 
     public Timer(int millis, int turn, Player player, Label label) {
