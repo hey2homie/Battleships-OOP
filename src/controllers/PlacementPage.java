@@ -82,7 +82,7 @@ public class PlacementPage implements Initializable {
                     "1x", (i + 1) + "x"))).toExternalForm());
             availableShip.add(ships[i], 0, i);
             int index = i;
-
+            // TODO: Make ImageView in DragAndDrop event not centered on cursor
             ships[i].setOnDragDetected(event -> {
                 dims = index;
                 Dragboard db = ships[index].startDragAndDrop(TransferMode.MOVE);

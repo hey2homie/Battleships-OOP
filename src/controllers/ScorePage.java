@@ -1,6 +1,8 @@
 package controllers;
 
+import battleships.Player;
 import battleships.Utilities;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -35,7 +37,14 @@ public class ScorePage implements Initializable {
 
     @FXML
     private void exit() {
-        // TODO: Not to exit application, but to allow players play another game. The problem is to set everything fresh
         System.exit(1);
+    }
+
+    @FXML
+    private void continueGame(ActionEvent event) throws IOException {
+        Utilities.setPlayer1(new Player());
+        Utilities.setPlayer2(new Player());
+        Utilities.cleanScore();
+        Utilities.changeScene(event, "../FXML/begin.fxml");
     }
 }

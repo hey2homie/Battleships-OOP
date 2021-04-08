@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GamePage">
-    <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
           prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #d0b8ac;"
           xmlns="http://javafx.com/javafx/11.0.1">
         <GridPane fx:id="battleField1" gridLinesVisible="true" layoutX="14.0" layoutY="198.0" prefHeight="450.0"
@@ -91,7 +91,7 @@
                 <Font name="Avenir Book" size="30.0" />
             </font>
         </Label>
-        <Label fx:id="timerLabel" layoutX="623.0" layoutY="132.0" text="">
+        <Label fx:id="timerLabel" layoutX="623.0" layoutY="132.0">
             <font>
                 <Font name="Avenir Book" size="30.0" />
             </font>

@@ -13,8 +13,8 @@ import java.util.Objects;
 
 public class Utilities {
 
-    private static final Player player1 = new Player();
-    private static final Player player2 = new Player();
+    private static Player player1 = new Player();
+    private static Player player2 = new Player();
     private static int gameTime = 0;
     private static String scoringSystem;
     private static String score = "";
@@ -63,6 +63,14 @@ public class Utilities {
         return score;
     }
 
+    public static void setPlayer1(Player player1) {
+        Utilities.player1 = player1;
+    }
+
+    public static void setPlayer2(Player player2) {
+        Utilities.player2 = player2;
+    }
+
     public static void setGameTime(int time) {
         gameTime = time;
     }
@@ -77,5 +85,9 @@ public class Utilities {
 
     public static void setWinner(String win) {
         winner = win;
+    }
+
+    public static void cleanScore() {
+        score = "";
     }
 }

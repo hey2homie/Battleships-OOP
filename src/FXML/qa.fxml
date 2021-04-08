@@ -18,7 +18,7 @@
             <Font name="Avenir Book" size="82.0" />
          </font>
       </Label>
-      <Button id="back" fx:id="back" alignment="CENTER_RIGHT" contentDisplay="TEXT_ONLY" layoutX="728.0" layoutY="594.0"
+      <Button alignment="CENTER_RIGHT" contentDisplay="TEXT_ONLY" layoutX="728.0" layoutY="594.0"
               mnemonicParsing="false" onAction="#back" prefHeight="174.0" prefWidth="296.0"
               style="-fx-background-color: null;" text="Back" textAlignment="RIGHT">
          <font>

@@ -21,8 +21,7 @@
               <Font name="Avenir Book" size="80.0"/>
             </font>
         </Label>
-        <Button fx:id="toPlacementBoard" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="312.0" layoutY="590.0"
-                mnemonicParsing="false"
+        <Button alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="312.0" layoutY="590.0" mnemonicParsing="false"
                 prefHeight="117.0" prefWidth="400.0" style="-fx-background-color: null;" text="Begin?"
                 textAlignment="CENTER" onAction="#toPlacement">
             <font>
